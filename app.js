@@ -41,7 +41,7 @@ app.use(morgan('dev'));
 // render index page
 app.get('/', (req, res, next) => {
     console.log(req.session); // tu sesja jest undefined
-    res.render('index', {title: "Strona główna", loged_in: req.session.user !== undefined});
+    res.render('index', {title: "Strona główna", loged_in: req.session.user !== undefined, nick: req.session.user});
     // req.session.user = 'x'; // to nie działa jak na razie
     // console.log(res.session);
 });

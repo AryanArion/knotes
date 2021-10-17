@@ -1,5 +1,18 @@
-<div class="outer" id="footer_wrap">
-	<footer class="inner">
+<footer>
+    <div>
+        <nav>
+            <% if (loged_in) { %>
+            <a href="#">
+                <img src="/static/src/image/account.svg" alt="" /> <%= nick %>
+            </a>
+            <% } else { %>
+            <a href="/user/login">
+                <img src="/static/src/image/account.svg" alt="" /> UnLoged
+            </a>
+            <% } %>
+        </nav>
+    </div>
+    <div>
         <p>Copyright &copy; KNI WebAssembly Team 2021</p>
-    </footer>
-</div>
+    </div>
+</footer>

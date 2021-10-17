@@ -1,0 +1,11 @@
+:root {
+  --text: #101010;
+  --light_text: #707070;
+  --dark_accent: hsl(calc(210deg + var(--hue)), 100%, 20%);
+  --accent: hsl(calc(210deg + var(--hue)), 100%, 30%);
+  --light_accent: hsl(calc(210deg + var(--hue)), 100%, 70%);
+  --dark_background: #f0f0f0;
+  --background: #d0d0d0;
+  --light_background: #b0b0b0;
+}
+/*# sourceMappingURL=light.css.map */

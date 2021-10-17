@@ -1,0 +1,56 @@
+#main-page {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    article {
+        height: calc(100vh - 60px - 40px - 30px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        
+        section {
+            .title {
+                font-size: 100px;
+            }
+            .subtitle {
+                font-size: 60px;
+            }
+            a {
+                color: $blue;
+            }
+            a:hover {
+                color: $dr-blue;
+            }
+            &#functionality {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                padding: 128px 0px;
+
+                div {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+
+                    padding: 0px 64px;
+                    div {
+                        padding-top: 16px;
+
+                        font-size: 60px;
+                    }
+                }
+            }
+            .blue {
+                color: $blue;
+            }
+            .welc {
+                font-size: 36px;
+            }
+        }
+    }
+}

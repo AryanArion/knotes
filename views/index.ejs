@@ -1,33 +1,51 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <%- include('./partials/head') %>
+    </head>
 
-<head>
-    <%- include('./partials/head') %>
-</head>
+    <body>
+        <%- include('./partials/top') %>
+        <div id="contener">
+            <%- include('./partials/aside') %>
+            <main id="main-page">
+                <%- include('./partials/nav') %>
+                <article>
+                    <section>
+                        <div class="title">
+                            Welcome to <span class="blue">Knotes!</span>
+                        </div>
+                        <div class="subtitle">
+                            We created this place with your
+                            <span class="blue">creativity</span> in mind.
+                        </div>
+                    </section>
+                    <section id="functionality">
+                        <div>
+                            <img src="/static/src/image/add.svg" />
+                            <div class="desc">Add</div>
+                        </div>
+                        <div>
+                            <img src="/static/src/image/edit.svg" />
+                            <div class="desc">Edit</div>
+                        </div>
+                        <div>
+                            <img src="/static/src/image/save.svg" />
+                            <div class="desc">Save</div>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="welc">
+                            If you are here for the first time
+                            <a href="/user/register">sing up</a> and if not
+                            <a href="/user/login">log in</a>
+                            to our system.
+                        </div>
+                    </section>
+                </article>
+            </main>
+        </div>
 
-<body>
-    <%- include('./partials/nav') %>
-    <div class="outer" id="content_wrap">
-        <section class="inner">
-            <h1>Witaj w Knotes!</h1>
-            <p>
-                Stworzyliśmy to miejsce z myślą o Twojej kreatywności.
-            </p>
-            <div id="functionality">
-                <p>Twórz</p>
-                <img src='/static/resources/new.svg'>
-            </div>
-            <div id="functionality">
-                <p>Edytuj</p>
-                <img src='/static/resources/edit.svg'>
-            </div>
-            <div id="functionality">
-                <p>Zapisuj</p>
-                <img src='/static/resources/save.svg'>
-            </div>
-        </section>
-    </div>
-    <%- include('./partials/footer') %>
-</body>
-
+        <%- include('./partials/footer') %>
+    </body>
 </html>

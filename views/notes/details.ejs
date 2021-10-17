@@ -1,53 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <%- include("../partials/head.ejs") %>
+        <script>
+            function note_update() {
+                const filename =
+                    document.getElementById("name-label").dataset.title;
+                const content = document.getElementById("editing").innerText;
+                console.log("update");
+                fetch(`update`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        filename: filename,
+                        content: content,
+                    }),
+                })
+                    .then((res) => res.json())
+                    .then((data) => (window.location.href = data.redirect))
+                    .catch((err) => console.log(err));
+            }
 
-<head>
-    <%- include("../partials/head.ejs") %>
-    <script>
-        function note_update() {
-            const filename = document.getElementById('name-label').dataset.title
-            const content = document.getElementById('content').innerText
-            console.log("update")
-            fetch(`update`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 'filename': filename, 'content': content })
-            })
-                .then(res => res.json())
-                .then(data => window.location.href = data.redirect)
-                .catch(err => console.log(err));
-        }
+            function note_delete() {
+                console.log("delete");
+                var url = window.location.href;
+                url = url.substring(url.lastIndexOf("/") + 1);
+                fetch(url, { method: "DELETE" })
+                    .then((res) => res.json())
+                    .then((data) => (window.location.href = data.redirect))
+                    .catch((err) => console.log(err));
+            }
 
-        function note_delete() {
-            console.log("delete")
-            var url = window.location.href
-            url = url.substring(url.lastIndexOf('/') + 1)
-            fetch(url, { method: 'DELETE' })
-                .then(res => res.json())
-                .then(data => window.location.href = data.redirect)
-                .catch(err => console.log(err));
-        }
-    </script>
-</head>
+            // sctipt for writing code
+            function update(text) {
+                let result_element = document.querySelector(
+                    "#highlighting-content"
+                );
+                // Handle final newlines (see article)
+                if (text[text.length - 1] == "\n") {
+                    text += " ";
+                }
+                // Update code
+                result_element.innerHTML = text
+                    .replace(new RegExp("&", "g"), "&amp;")
+                    .replace(new RegExp("<", "g"), "&lt;"); /* Global RegExp */
+                // Syntax Highlight
+                // Prism.highlightElement(result_element);
+            }
 
-<body>
-    <%- include("../partials/nav.ejs") %>
-    <div class="outer" id="content_wrap">
-        <section class="inner">
-            <form class="create-note">
-                <label id="name-label" for="title" data-title="<%= name %>">Tytuł: </label><b>
-                    <%= name %>
-                </b> <br>
-                <textarea name="content" id="content" cols="30" rows="10"><%= body %></textarea>
-                <input type="text" value="<%=name%>" id="oldUrl" name="oldUrl" hidden>
-            </form>
-            <br>
-            <button onclick="note_update()">Zapisz</button>
-            <button onclick="note_delete()">Usuń</button>
-            <br>
-        </section>
-    </div>
-    <%- include("../partials/footer.ejs") %>
-</body>
+            function sync_scroll(element) {
+                /* Scroll result to scroll coords of event - sync with textarea */
+                let result_element = document.querySelector("#highlighting");
+                // Get and set x and y
+                result_element.scrollTop = element.scrollTop;
+                result_element.scrollLeft = element.scrollLeft;
+            }
 
+            function check_tab(element, event) {
+                let code = element.value;
+                if (event.key == "Tab") {
+                    /* Tab key pressed */
+                    event.preventDefault(); // stop normal
+                    let before_tab = code.slice(0, element.selectionStart); // text before tab
+                    let after_tab = code.slice(
+                        element.selectionEnd,
+                        element.value.length
+                    ); // text after tab
+                    let cursor_pos = element.selectionEnd + 1; // where cursor moves after tab - moving forward by 1 char to after tab
+                    element.value = before_tab + "\t" + after_tab; // add tab char
+                    // move cursor
+                    element.selectionStart = cursor_pos;
+                    element.selectionEnd = cursor_pos;
+                    update(element.value); // Update text to include indent
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <%- include('../partials/top') %>
+        <div id="contener">
+            <%- include('../partials/aside') %>
+            <main id="main-page">
+                <%- include('../partials/nav') %>
+                <!-- <div class="div"><%= name %></div> -->
+                <div class="create-note">
+                    <form>
+                        <label
+                            id="name-label"
+                            for="title"
+                            data-title="<%= name %>"
+                            style="display: none"
+                            >Tytuł:
+                        </label>
+                        <div class="code-field">
+                            <textarea
+                                name="content"
+                                oninput="update(this.value);"
+                                onkeydown="check_tab(this, event);"
+                                required
+                                spellcheck="false"
+                                id="editing"
+                            >
+<%= body %></textarea
+                            >
+
+                            <pre id="highlighting" aria-hidden="true">
+                                <code class="language-html" id="highlighting-content"></code>
+                            </pre>
+                        </div>
+
+                        <input
+                            type="text"
+                            value="<%=name%>"
+                            id="oldUrl"
+                            name="oldUrl"
+                            hidden
+                        />
+                    </form>
+                </div>
+            </main>
+        </div>
+
+        <%- include('../partials/footer') %>
+        <script>
+            document
+                .querySelector("#contener")
+                .addEventListener("keydown", (event) => {
+                    if (event.ctrlKey && event.key === "s") {
+                        event.preventDefault();
+                        note_update();
+                    }
+                });
+        </script>
+    </body>
 </html>

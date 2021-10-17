@@ -25,7 +25,9 @@
     "nodemon": "^2.0.12"
   },
   "nodemonConfig": {
-    "ignore": ["sessions/*"]
+    "ignore": [
+      "sessions/*"
+    ]
   },
   "repository": {
     "type": "git",

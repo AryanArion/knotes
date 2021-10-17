@@ -4,7 +4,7 @@ const sha256 = require('js-sha256').sha256;
 
 const user_register_get = (req, res) => {
     if (!req.session.user) {
-        res.render('user/register', {title: 'Register', loged_in: false, message: 'Create your account'});
+        res.render('user/register', {title: 'Register', loged_in: false, message: ''});
     }
     res.redirect('/', {status: 200}, {title: 'Knotes', loged_in: true});
 }
@@ -48,7 +48,7 @@ const user_register_post = (req, res) => {
 
 const user_login_get = (req, res) => {
     if (!req.session.user) {
-        res.render('user/login', {title: 'Log In', loged_in: false, message: 'Log In'});
+        res.render('user/login', {title: 'Log In', loged_in: false, message: ''});
     }
     res.redirect('/', {status: 200}, {title: 'Knotes', loged_in: true});
 }
@@ -72,7 +72,10 @@ const user_login_post = (req, res) => {
             req.session.user = retusr.login;
             req.session.readperm = retusr.readperm;
             req.session.writeperm = retusr.writeperm;
-            res.redirect('/', {status: 200}, {title: 'Knotes', loged_in: true});
+            res.redirect('/', {status: 200}, {
+                title: 'Knotes', 
+                loged_in: true
+            });
         }
 
     });

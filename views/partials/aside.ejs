@@ -1,0 +1,48 @@
+<!-- Page for left nav and explorer-->
+<aside>
+    <section id="left-nav">
+        <!-- Section for left nav -->
+        <section id="top-nav">
+            <!-- Go from top -->
+            <nav>
+                <a
+                    href="/notes"
+                    class="<% if(title != 'All file' ) { %> active <% } %>"
+                >
+                    <img src="/static/src/image/note.svg" alt="" />
+                </a>
+                <a
+                    href="/notes"
+                    class="<% if(title == 'All file') { %> active <% } %>"
+                >
+                    <img src="/static/src/image/multiple-note.svg" alt="" />
+                </a>
+                <a
+                    href="/notes/create"
+                    class="<% if(title == 'Create') { %> active <% } %>"
+                >
+                    <img src="/static/src/image/add-sm.svg" alt="" />
+                </a>
+            </nav>
+        </section>
+        <section id="buttom-nav">
+            <!-- Go from buttom -->
+            <nav>
+                <a href="/user/logout">
+                    <img src="/static/src/image/settings.svg" alt="" />
+                </a>
+            </nav>
+        </section>
+    </section>
+    <section id="right-nav">
+        <!-- Section for file explorer and everything from left navbar -->
+        <div class="title">FILE EXPLORER</div>
+        <div>
+            <div class="subtitle">
+                <span>Notes</span>
+                <img src="/static/src/image/drop-down.svg" alt="" />
+            </div>
+            <nav></nav>
+        </div>
+    </section>
+</aside>

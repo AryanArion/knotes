@@ -1,30 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <%- include('../partials/head.ejs') %>
+        <script>
+            // sctipt for writing code
+            function update(text) {
+                let result_element = document.querySelector(
+                    "#highlighting-content"
+                );
+                // Handle final newlines (see article)
+                if (text[text.length - 1] == "\n") {
+                    text += " ";
+                }
+                // Update code
+                result_element.innerHTML = text
+                    .replace(new RegExp("&", "g"), "&amp;")
+                    .replace(new RegExp("<", "g"), "&lt;"); /* Global RegExp */
+                // Syntax Highlight
+                // Prism.highlightElement(result_element);
+            }
 
-<head>
-    <%- include('../partials/head.ejs') %>
-</head>
+            function sync_scroll(element) {
+                /* Scroll result to scroll coords of event - sync with textarea */
+                let result_element = document.querySelector("#highlighting");
+                // Get and set x and y
+                result_element.scrollTop = element.scrollTop;
+                result_element.scrollLeft = element.scrollLeft;
+            }
 
-<body>
-    <%- include('../partials/nav.ejs') %>
-    <div class="outer" id="content_wrap">
-        <section class="inner">
-            <div class="create-note">
-                <form action="/notes" method="POST">
-                    <input type="text" id="title" name="title" placeholder="Tytuł" required>
-                    <br><br>
-                    <textarea name="text" required></textarea>
-                    <br><br>
-                    <button>Stwórz</button>
-                </form>
-                <% if (exists) { %>
+            function check_tab(element, event) {
+                let code = element.value;
+                if (event.key == "Tab") {
+                    /* Tab key pressed */
+                    event.preventDefault(); // stop normal
+                    let before_tab = code.slice(0, element.selectionStart); // text before tab
+                    let after_tab = code.slice(
+                        element.selectionEnd,
+                        element.value.length
+                    ); // text after tab
+                    let cursor_pos = element.selectionEnd + 1; // where cursor moves after tab - moving forward by 1 char to after tab
+                    element.value = before_tab + "\t" + after_tab; // add tab char
+                    // move cursor
+                    element.selectionStart = cursor_pos;
+                    element.selectionEnd = cursor_pos;
+                    update(element.value); // Update text to include indent
+                }
+            }
+            const beforeUnloadListener = (event) => {
+                event.preventDefault();
+                return (event.returnValue = "Are you sure you want to exit?");
+            };
+        </script>
+    </head>
+
+    <body>
+        <%- include('../partials/top') %>
+        <div id="contener">
+            <%- include('../partials/aside') %>
+            <main id="main-page">
+                <%- include('../partials/nav') %>
+                <div class="create-note">
+                    <form action="/notes" method="POST" id="form-add">
+                        <div class="file-title">
+                            <div>Title:</div>
+                            <input
+                                type="text"
+                                id="title"
+                                name="title"
+                                placeholder="title"
+                                required
+                            />
+                        </div>
+                        <div class="code-field">
+                            <textarea
+                                name="text"
+                                oninput="update(this.value);"
+                                onkeydown="check_tab(this, event);"
+                                required
+                                spellcheck="false"
+                                id="editing"
+                            ></textarea>
+
+                            <pre id="highlighting" aria-hidden="true">
+                                <code class="language-html" id="highlighting-content"></code>
+                            </pre>
+                        </div>
+                        <button hidden accesskey="s"></button>
+                    </form>
+                    <% if (exists) { %>
                     <h2>Notatka o podanej nazwie już istnieje!</h2>
                     <% } %>
-                        <br>
-            </div>
-        </section>
-    </div>
-    <%- include('../partials/footer.ejs') %>
-</body>
+                    <br />
+                </div>
+            </main>
+        </div>
 
+        <%- include('../partials/footer') %>
+        <script>
+            document
+                .querySelector("#contener")
+                .addEventListener("keydown", (event) => {
+                    if (event.ctrlKey && event.key === "s") {
+                        event.preventDefault();
+                        document.querySelector("#form-add").submit();
+                    }
+                });
+        </script>
+    </body>
 </html>

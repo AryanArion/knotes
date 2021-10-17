@@ -1,16 +1,38 @@
-<div class="outer" id="navy_wrap">
-    <nav class="inner">
-        <a href="/">Strona główna</a>
-        <a href="/notes">Wszystkie notatki</a>
-        <a href="/notes/create">Nowa notatka</a>
-        <% if (loged_in) { %>
-            <p id="unavailable">Zaloguj</p>
-            <p id="unavailable">Zarejestruj</p>
-            <a href="/user/logout">Wyloguj</a>
-        <% } else { %>
-            <a href="/user/login">Zaloguj</a>
-            <a href="/user/register">Zarejestruj</a>
-            <p id="unavailable">Wyloguj</p>
-        <% } %>
-    </nav>
-</div>
+<!-- Page for list open file should be in main not top -->
+<nav>
+    <% if(title=="Create") { %>
+    <!--  -->
+    <div class="active">
+        <a href="/notes/create" class="left"> New File </a>
+        <a href="/" class="right">
+            <img src="/static/src/image/close.svg" alt="" />
+        </a>
+    </div>
+    <!--  -->
+    <% } %> <% if(title=="Strona główna") { %>
+    <!--  -->
+    <div class="active">
+        <a href="/notes/create"> Home </a>
+    </div>
+    <!--  -->
+    <% } %>
+    <div>
+        <a
+            href="/notes/"
+            class="
+                <%
+                if(title=='./public/notes/Notatka.txt')
+                {
+                %>
+                active
+                <%}%>
+                left
+            "
+        >
+            important-note.txt
+        </a>
+        <a href="/" class="right">
+            <img src="/static/src/image/close.svg" alt="" />
+        </a>
+    </div>
+</nav>
