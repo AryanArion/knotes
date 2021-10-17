@@ -40,7 +40,7 @@ const note_details = (req, res) => {
             console.log(error);
             res.redirect('/500');
         } else {
-            res.render('notes/details', {title: result.title, loged_in: true, name: result.title, body: result.content});
+            res.render('notes/details', {title: result.title, loged_in: true, name: result.title, body: result.content, nick: req.session.user});
             console.log(result)
         }
     });
@@ -50,7 +50,7 @@ const note_create_get = (req, res) => {
     if (req.session.user === undefined) {
         res.render('user/login', {title: 'Log in', loged_in: false, message: 'Log in before you access the notes'});
     }
-    res.render('notes/create', {title: 'Create', loged_in: true, exists: false});
+    res.render('notes/create', {title: 'Create', loged_in: true, exists: false, nick: req.session.user});
 };
 
 const note_create_post = (req, res) => {

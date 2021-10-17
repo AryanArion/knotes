@@ -436,7 +436,8 @@ footer div p {
   padding: 16px 0px 0px 32px;
 }
 
-.create-note .file-title input {
+.create-note .file-title input,
+.create-note .file-title label {
   background-color: transparent;
   border: none;
   outline: none;
